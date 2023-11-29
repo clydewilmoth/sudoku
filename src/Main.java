@@ -4,6 +4,7 @@ public class Main {
     static ArrayList<String> sudokuListe = new ArrayList<>();
     public static void main(String[] args) throws FileNotFoundException {
 
+        ArrayList<String> aktuelleListe = readFile("resources/sudokus.csv");
         Scanner sc = new Scanner(System.in);
         String sehen = "";
         String entscheidung = "ja";
@@ -11,18 +12,25 @@ public class Main {
 
         while(true){
 
+            f = (int) ((Math.random()*aktuelleListe.size()));
             spielfeldAusgabe(spielfelderAufgabeBefüllen("resources/sudokus.csv"), f);
-            f = (int) ((Math.random()*sudokuListe.size())+1);
-            System.out.println("\nSudoku Nummer "+ f);
-            System.out.print("\nMöchten Sie die Lösung sehen?(irgendetwas mit Enter bestätigen um fortzufahren): ");
+            aktuelleListe.remove(f);
+            System.out.println("\nSudoku Nummer "+ (f+1));
+            System.out.print("\nMöchten Sie die Lösung sehen?(Irgendetwas mit Enter bestätigen um fortzufahren): ");
             sehen = sc.next();
             System.out.println();
             spielfeldAusgabe(spielfelderLösungBefüllen("resources/sudokus.csv"), f);
-            System.out.println("\nMöchten Sie sich an das nächste Sudoku ranwagen?(ja/nein): ");
+            System.out.println("\nMöchten Sie sich an ein weiteres Sudoku ran wagen?(ja/nein): ");
             entscheidung = sc.next();
-            if(entscheidung.equals("nein"))
+            if(entscheidung.equals("nein")) {
+                System.out.println("Damit wäre das Spiel beendet.");
                 break;
-            System.out.println();
+            }
+            if(aktuelleListe.isEmpty()) {
+                System.out.println("Sie haben sich alle Sudokus aus der Liste angeschaut, damit wäre das Spiel beendet.");
+                break;
+            }
+            System.out.println("\n Fehler: "+lösungÜberprüfung(spielfelderLösungBefüllen("resources/sudokus.csv"), f));
         }
 
     }
@@ -42,7 +50,7 @@ public class Main {
         int g = 4;
         int t = 1;
         System.out.println("----------------------------------");
-        System.out.println("    a  b  c | d  e  f | g  h  i");
+        System.out.println(" || a  b  c | d  e  f | g  h  i");
         System.out.println("----------------------------------");
 
         for (int n = 0; n < 9; n++) {
@@ -160,5 +168,25 @@ public class Main {
         }
 
         return alleSpielfelderNummeriert;
+    }
+    public static int lösungÜberprüfung(int[][][] spielFeld, int z) {
+
+        int fehler = 0;
+
+        for(int y = 0; y<9; y++) {
+            if (spielFeld[z].length != 9 && spielFeld[z][y].length != 9)
+                fehler++;
+        }
+
+        for(int y = 0; y<9; y++) {
+            for(int x = 0; x<9; x++) {
+                if (spielFeld[z][y][x]<1||spielFeld[z][y][x]>9||(spielFeld[z][y][x]+'0')<'1'||(spielFeld[z][y][x]+'0')>'9')
+                    fehler++;
+            }
+        }
+
+
+
+        return fehler;
     }
 }
