@@ -119,7 +119,7 @@ public class Main {
         }
 
         return alleSpielfelderNummeriert;
-    }
+    } //indirekte Rekursion
     public static int lösungÜberprüfung(int[][] spielFeld) {
 
         int fehler = 0;
