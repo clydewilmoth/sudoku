@@ -183,37 +183,20 @@ public class Main {
         int i = 0;
 
         for (int z = 0; z < 9; z += 3) {
-            for (int y = 0; y < 3; y++) {
-                for (int x = 0; x < 3; x++) {
-                    if (verwendeteZahlen[i][spielFeld[y + z][x]]) {
-                        fehler++;
-                        System.out.println("Boxfehler,");
-                    } else
-                        verwendeteZahlen[i][spielFeld[y + z][x]] = true;
+            for (int u = 0; u < 9; u += 3) {
+                for (int y = 0; y < 3; y++) {
+                    for (int x = 0; x < 3; x++) {
+                        if (verwendeteZahlen[i][spielFeld[y + z][x + u]]) {
+                            fehler++;
+                            System.out.println("Boxfehler,");
+                        } else
+                            verwendeteZahlen[i][spielFeld[y + z][x + u]] = true;
+                    }
                 }
+                i++;
             }
-            i++;
-            for (int y = 0; y < 3; y++) {
-                for (int x = 3; x < 6; x++) {
-                    if (verwendeteZahlen[i][spielFeld[y + z][x]]) {
-                        fehler++;
-                        System.out.println("Boxfehler,");
-                    } else
-                        verwendeteZahlen[i][spielFeld[y + z][x]] = true;
-                }
-            }
-            i++;
-            for (int y = 0; y < 3; y++) {
-                for (int x = 6; x < 9; x++) {
-                    if (verwendeteZahlen[i][spielFeld[y + z][x]]) {
-                        fehler++;
-                        System.out.println("Boxfehler,");
-                    } else
-                        verwendeteZahlen[i][spielFeld[y + z][x]] = true;
-                }
-            }
-            i++;
         }
+
         return fehler;
     }
 }
